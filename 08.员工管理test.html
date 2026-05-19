@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>员工管理 - tlias 智能学习辅助系统</title>
+  <style>
+    /* 全局重置 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Microsoft YaHei", sans-serif;
+    }
+
+    /* 顶栏样式 */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 60px;
+      padding: 0 20px;
+      background-color: #d3d3d3; /* 还原图片里的灰色顶栏 */
+    }
+
+    .header .title {
+      font-size: 32px;
+      font-weight: bold;
+      color: #fff; /* 标题白色 */
+      /* <!-- 智能学习辅助系统设置为楷体 --> */
+      font-family: "楷体";
+    }
+
+    .header .logout {
+      font-size: 16px;
+      color: #333;
+      text-decoration: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .header .logout:hover {
+      color: #ff4d4f;
+    }
+
+    /* 主体容器 */
+    .container {
+      padding: 20px;
+    }
+
+    /* 筛选栏 */
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      margin-bottom: 20px;
+    }
+
+    .search-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .search-item label {
+      font-size: 14px;
+      color: #333;
+      white-space: nowrap;
+    }
+
+    .search-item input,
+    .search-item select {
+      width: 220px;
+      height: 36px;
+      padding: 0 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .search-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      width: 80px;
+      height: 36px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .btn.query {
+      background-color: #23a6ff;
+      color: #fff;
+    }
+
+    .btn.reset {
+      background-color: #ccc;
+      color: #333;
+    }
+
+    /* 表格样式 */
+    .table-container {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .table-container th,
+    .table-container td {
+      border: 1px solid #e0e0e0;
+      padding: 12px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .table-container th {
+      background-color: #f5f5f5;
+      font-weight: normal;
+    }
+
+    .avatar-placeholder {
+      width: 40px;
+      height: 40px;
+      margin: 0 auto;
+      background-color: #e0e0e0;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+    }
+
+    .action-buttons a {
+      color: #ff9500;
+      text-decoration: none;
+      margin: 0 8px;
+    }
+
+    /* 页脚 */
+    .footer {
+      margin-top: 30px;
+      padding: 15px;
+      background-color: #d3d3d3;
+      text-align: center;
+      font-size: 14px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <!-- 第一部分：顶栏 -->
+  <div class="header">
+    <div class="title">tlias 智能学习辅助系统</div>
+    <a href="#" class="logout">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+        <polyline points="16 17 21 12 16 7"></polyline>
+        <line x1="21" y1="12" x2="9" y2="12"></line>
+      </svg>
+      退出登录
+    </a>
+  </div>
+
+  <!-- 第二部分：主体内容 -->
+  <div class="container">
+    <!-- 筛选区 -->
+    <div class="search-bar">
+      <div class="search-item">
+        <label>姓名</label>
+        <input type="text" placeholder="请输入员工姓名">
+      </div>
+      <div class="search-item">
+        <label>性别</label>
+        <select>
+          <option value="">请选择</option>
+          <option value="男">男</option>
+          <option value="女">女</option>
+        </select>
+      </div>
+      <div class="search-item">
+        <label>职位</label>
+        <select>
+          <option value="">请选择</option>
+          <option value="班主任">班主任</option>
+          <option value="讲师">讲师</option>
+        </select>
+      </div>
+      <div class="search-buttons">
+        <button class="btn query">查询</button>
+        <button class="btn reset">清空</button>
+      </div>
+    </div>
+
+    <!-- 表格区 -->
+    <table class="table-container">
+      <thead>
+        <tr>
+          <th>姓名</th>
+          <th>性别</th>
+          <th>头像</th>
+          <th>职位</th>
+          <th>入职日期</th>
+          <th>最后操作时间</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>赵敏</td>
+          <td>女</td>
+          <td>
+            <div class="avatar-placeholder">
+              <!-- 头像占位图，这里用背景色代替 -->
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <rect width="40" height="40" fill="#e0e0e0"/>
+                <path d="M10 25L17 18L23 22L30 15V30H10V25Z" fill="#23a6ff"/>
+                <circle cx="25" cy="15" r="3" fill="#ccc"/>
+              </svg>
+            </div>
+          </td>
+          <td>班主任</td>
+          <td>2008-12-18</td>
+          <td>2023-07-22 12:05:20</td>
+          <td class="action-buttons">
+            <a href="#">编辑</a>
+            <a href="#">删除</a>
+          </td>
+        </tr>
+        <tr>
+          <td>风清扬</td>
+          <td>男</td>
+          <td>
+            <div class="avatar-placeholder">
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <rect width="40" height="40" fill="#e0e0e0"/>
+                <path d="M10 25L17 18L23 22L30 15V30H10V25Z" fill="#23a6ff"/>
+                <circle cx="25" cy="15" r="3" fill="#ccc"/>
+              </svg>
+            </div>
+          </td>
+          <td>讲师</td>
+          <td>2015-07-22</td>
+          <td>2022-07-22 15:00:00</td>
+          <td class="action-buttons">
+            <a href="#">编辑</a>
+            <a href="#">删除</a>
+          </td>
+        </tr>
+        <!-- 剩下的风清扬行你可以自己复制上面的 <tr> 来补充 -->
+        <tr>
+          <td>风清扬</td>
+          <td>男</td>
+          <td>
+            <div class="avatar-placeholder">
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <rect width="40" height="40" fill="#e0e0e0"/>
+                <path d="M10 25L17 18L23 22L30 15V30H10V25Z" fill="#23a6ff"/>
+                <circle cx="25" cy="15" r="3" fill="#ccc"/>
+              </svg>
+            </div>
+          </td>
+          <td>讲师</td>
+          <td>2015-07-22</td>
+          <td>2022-07-22 15:00:00</td>
+          <td class="action-buttons">
+            <a href="#">编辑</a>
+            <a href="#">删除</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 第三部分：页脚 -->
+  <div class="footer">
+    <p>江苏传智播客教育科技股份有限公司</p>
+    <p style="margin-top: 8px;">版权所有Copyright 2006-2024 All Rights Reserved</p>
+  </div>
+</body>
+</html>
